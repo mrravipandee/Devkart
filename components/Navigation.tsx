@@ -1,6 +1,6 @@
 "use client"
 
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, RefObject } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import {
@@ -122,7 +122,7 @@ const Navigation = () => {
   // Create refs for all categories upfront
   const categoryRefs = useRef<Record<string, React.RefObject<HTMLDivElement>>>({});
   CATEGORIES.forEach(category => {
-    categoryRefs.current[category.name] = useRef<HTMLDivElement>(null);
+    const categoryRefs = useRef<Record<string, RefObject<HTMLDivElement>>>({});
   });
 
   const [categoryPosition, setCategoryPosition] = useState({
@@ -141,14 +141,14 @@ const Navigation = () => {
 
   const getDropdownPosition = (categoryRef: React.RefObject<HTMLDivElement>) => {
     if (!categoryRef.current || viewportWidth === 0) return { left: '100%', right: 'auto' };
-    
+
     const rect = categoryRef.current.getBoundingClientRect();
     const dropdownWidth = 224;
-    
+
     if (rect.right + dropdownWidth > viewportWidth) {
       return { left: 'auto', right: '100%' };
     }
-    
+
     return { left: '100%', right: 'auto' };
   };
 
@@ -241,22 +241,22 @@ const Navigation = () => {
           </div>
 
           {/* Categories bar */}
-          <div className=" mx-auto px-4">
+          <div className=" mx-auto px-4 hidden md:block">
             <div className="flex items-center justify-between py-3">
               <div className="flex items-center space-x-4">
                 {/* Categories */}
                 {CATEGORIES.map((category) => (
                   <div
                     key={category.name}
-                    ref={categoryRefs.current[category.name]}
+                    ref={categoryRefs.current[category.name]} // safe 
                     className="relative"
                     onMouseEnter={() => {
                       setActiveCategory(category.name);
-                      if (categoryRefs.current[category.name].current) {
-                        const rect = categoryRefs.current[category.name].current?.getBoundingClientRect();
+                      const rect = categoryRefs.current[category.name]?.current?.getBoundingClientRect();
+                      if (rect) {
                         setCategoryPosition({
-                          left: rect?.left || 0,
-                          width: rect?.width || 0
+                          left: rect.left,
+                          width: rect.width
                         });
                       }
                     }}
@@ -272,7 +272,7 @@ const Navigation = () => {
                       <div
                         className="absolute left-0 mt-0 w-56 bg-white rounded-b-md shadow-lg py-2 z-50 border border-gray-100"
                         style={{
-                          left: `${categoryPosition.left - (categoryRefs.current[category.name].current?.getBoundingClientRect().left ?? 0)}px`
+                          left: `${categoryPosition.left - (categoryRefs.current[category.name]?.current?.getBoundingClientRect().left ?? 0)}px`
                         }}
                       >
                         {category.subcategories.map((subcat) => (
@@ -288,6 +288,7 @@ const Navigation = () => {
                     )}
                   </div>
                 ))}
+
               </div>
             </div>
           </div>
