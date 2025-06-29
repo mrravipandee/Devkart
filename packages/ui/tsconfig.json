@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "composite": true,
+    "declaration": true,
+    "declarationMap": true,
+    "jsx": "react-jsx",
+    "outDir": "dist",
+    "moduleResolution": "node"
+  },
+  "include": ["**/*.ts", "**/*.tsx"]
+}

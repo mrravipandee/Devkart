@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { ChevronLeft, ChevronRight, Flame, ShoppingCart, Check } from 'lucide-react';
-import ButtonMove from './ButtonMove';
+import { MoveButton } from 'ui'; 
 
 interface Product {
     id: number;
@@ -92,7 +92,7 @@ const TrendingSection: React.FC<TrendingSectionProps> = ({
 
             {showViewAll && (
                 <div className="mt-10 mb-10 flex justify-center">
-                    <ButtonMove
+                    <MoveButton
                         text="See All Projects"
                         href="/best-sellers"
                         className="mt-0"
