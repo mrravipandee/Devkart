@@ -167,7 +167,7 @@ const Navigation = () => {
                 alt="DigitalShop Logo"
                 className="mr-2"
               />
-              <span className="text-xl font-bold text-primary">Dev-mia</span>
+              <span className="text-xl font-bold text-primary">Surfbit</span>
             </Link>
 
             {/* Navigation items */}
