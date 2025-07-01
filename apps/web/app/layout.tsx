@@ -15,8 +15,8 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "Surfbit",
-  description: "Where Innovation Meets Execution",
+  title: "Surfbit - Where Innovation Meets Execution",
+  description: "We help startups launch and grow with scalable web and mobile apps.",
   keywords: [
     "Surfbit",
     "Startup software agency",

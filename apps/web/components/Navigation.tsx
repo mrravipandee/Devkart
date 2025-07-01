@@ -1,6 +1,7 @@
 "use client"
 
 import { useRef, useState, useEffect, RefObject } from "react";
+import logo from "@/public/surfbit.png";
 import Link from "next/link";
 import Image from "next/image";
 import {
@@ -157,17 +158,17 @@ const Navigation = () => {
       <div className="mx-auto px-4">
         <div className="bg-white shadow-sm">
           {/* Top navigation bar */}
-          <div className="mx-auto py-4 flex items-center justify-between h-16">
+          <div className="mx-auto py-4 px-4 flex items-center justify-between h-16">
             {/* Logo */}
             <Link href="/" className="flex items-center shrink-0">
               <Image
-                src="/logo.svg"
-                width={32}
-                height={32}
-                alt="DigitalShop Logo"
-                className="mr-2"
+                src={logo}
+                width={35}
+                height={35}
+                alt="Logo"
+                className=""
               />
-              <span className="text-xl font-bold text-primary">Surfbit</span>
+              <span className="text-xl font-bold text-gray-800 font-logo">SURFBIT</span>
             </Link>
 
             {/* Navigation items */}
