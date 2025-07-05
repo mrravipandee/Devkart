@@ -82,6 +82,12 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0(tailwindcss@3.4.17)
     devDependencies:
+      '@surfbit/tailwind-config':
+        specifier: workspace:*
+        version: link:../../packages/tailwind-config
+      '@surfbit/ui':
+        specifier: workspace:*
+        version: link:../../packages/ui
       '@types/node':
         specifier: ^20
         version: 20.19.2
@@ -110,11 +116,46 @@ importers:
         specifier: ^5
         version: 5.8.3
 
+  packages/tailwind-config:
+    dependencies:
+      '@tailwindcss/postcss':
+        specifier: ^4.1.11
+        version: 4.1.11
+      postcss:
+        specifier: ^8.5.6
+        version: 8.5.6
+    devDependencies:
+      tailwindcss:
+        specifier: ^4.1.11
+        version: 4.1.11
+
+  packages/typescript-config:
+    dependencies:
+      typescript:
+        specifier: ^5.8.3
+        version: 5.8.3
+
   packages/ui:
     dependencies:
+      autoprefixer:
+        specifier: ^10.4.21
+        version: 10.4.21(postcss@8.5.6)
+      postcss:
+        specifier: ^8.5.6
+        version: 8.5.6
       react:
-        specifier: ^18.2.0
-        version: 18.3.1
+        specifier: ^19.1.0
+        version: 19.1.0
+    devDependencies:
+      '@surfbit/tailwind-config':
+        specifier: workspace:*
+        version: link:../tailwind-config
+      '@types/react':
+        specifier: ^19.1.8
+        version: 19.1.8
+      tailwindcss:
+        specifier: ^4.1.11
+        version: 4.1.11
 
 packages:
 
@@ -2023,10 +2064,6 @@ packages:
 
   react-is@16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
-
-  react@18.3.1:
-    resolution: {integrity: sha512-wS+hAgJShR0KhEvPJArfuPVN1+Hz1t0Y6n5jLrGQbkb4urgPE/0Rve+1kMB1v/oWgHgm4WIcV+i7F2pTVj+2iQ==}
-    engines: {node: '>=0.10.0'}
 
   react@19.1.0:
     resolution: {integrity: sha512-FS+XFBNvn3GTAWq26joslQgWNoFu08F4kl0J4CgdNKADkdSGXQyTCnKteIAJy96Br6YbpEU1LSzV5dYtjMkMDg==}
@@ -4384,10 +4421,6 @@ snapshots:
       react-dom: 19.1.0(react@19.1.0)
 
   react-is@16.13.1: {}
-
-  react@18.3.1:
-    dependencies:
-      loose-envify: 1.4.0
 
   react@19.1.0: {}
 

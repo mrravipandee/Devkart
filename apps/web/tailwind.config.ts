@@ -1,12 +1,14 @@
+import sharedConfig from "@surfbit/tailwind-config/sharedConfig"
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  ...sharedConfig,
   content: [
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
-
-    // Or if using `src` directory:
     "./src/**/*.{js,ts,jsx,tsx,mdx}",
+    "../../packages/ui/src/**/*.{ts, js , tsx , jsx}",
   ],
   theme: {
     extend: {

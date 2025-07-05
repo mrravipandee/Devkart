@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from 'react';
+import * as React from "react";
 
 interface ButtonProps {
   text: string;
@@ -11,29 +11,29 @@ interface ButtonProps {
   arrowHoverEffect?: boolean;
   gradientFrom?: string;
   gradientTo?: string;
-  size?: 'sm' | 'md' | 'lg';
+  size?: "sm" | "md" | "lg";
 }
 
 export const MoveButton: React.FC<ButtonProps> = ({
   text,
   href,
   onClick,
-  className = '',
+  className = "",
   withArrow = true,
   arrowHoverEffect = true,
-  gradientFrom = 'blue-600',
-  gradientTo = 'indigo-600',
-  size = 'md',
+  gradientFrom = "blue-600",
+  gradientTo = "indigo-600",
+  size = "md",
 }) => {
   const sizeClasses = {
-    sm: 'px-4 py-2 text-sm',
-    md: 'px-6 py-3 text-base',
-    lg: 'px-8 py-4 text-lg',
+    sm: "px-4 py-2 text-sm",
+    md: "px-6 py-3 text-base",
+    lg: "px-8 py-4 text-lg",
   };
 
-  const arrowClasses = arrowHoverEffect 
-    ? 'group-hover:translate-x-1 transition-transform duration-300' 
-    : '';
+  const arrowClasses = arrowHoverEffect
+    ? "group-hover:translate-x-1 transition-transform duration-300"
+    : "";
 
   const content = (
     <>
@@ -61,21 +61,14 @@ export const MoveButton: React.FC<ButtonProps> = ({
 
   if (href) {
     return (
-      <a
-        href={href}
-        className={`group ${baseClasses}`}
-      >
+      <a href={href} className={`group ${baseClasses}`}>
         {content}
       </a>
     );
   }
 
   return (
-    <button
-      type="button"
-      onClick={onClick}
-      className={`group ${baseClasses}`}
-    >
+    <button type="button" onClick={onClick} className={`group ${baseClasses}`}>
       {content}
     </button>
   );
