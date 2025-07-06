@@ -1,1 +1,2 @@
-export * from './components/MoveButton';
+export * from "./src/MoveButton.tsx"
+export * from "./src/DemoButton.tsx"; 
