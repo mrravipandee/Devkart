@@ -4,6 +4,7 @@ import Hero from '@/components/Hero'
 import TrendingSection from '@/components/Trending'
 import CategoryBrowser from '@/components/CategoryBrowser'
 import ProblemSolutionSection from '@/components/ProblemSolutionSection'
+import ReferralEarnCard from '@/components/ReferralEarnCard'
 
 const page = () => {
 
@@ -73,6 +74,7 @@ const page = () => {
       <TrendingSection products={trendingProducts} />
       <CategoryBrowser />
       <ProblemSolutionSection />
+      <ReferralEarnCard />
     </div>
   )
 }
