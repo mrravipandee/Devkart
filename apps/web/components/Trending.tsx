@@ -2,7 +2,8 @@
 
 import React from 'react';
 import { ChevronLeft, ChevronRight, Flame, ShoppingCart, Check } from 'lucide-react';
-import { MoveButton } from 'ui'; 
+import { MoveButton } from 'ui';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface Product {
     id: number;
@@ -28,51 +29,77 @@ const TrendingSection: React.FC<TrendingSectionProps> = ({
     showViewAll = true,
 }) => {
     const [currentIndex, setCurrentIndex] = React.useState(0);
+    const [direction, setDirection] = React.useState<'left' | 'right'>('right');
+    const [isHovering, setIsHovering] = React.useState(false);
 
     const nextSlide = () => {
+        setDirection('right');
         setCurrentIndex((prevIndex) =>
-            prevIndex === products.length - 1 ? 0 : prevIndex + 1
+            prevIndex >= products.length - 1 ? 0 : prevIndex + 1
         );
     };
 
     const prevSlide = () => {
+        setDirection('left');
         setCurrentIndex((prevIndex) =>
-            prevIndex === 0 ? products.length - 1 : prevIndex - 1
+            prevIndex <= 0 ? products.length - 1 : prevIndex - 1
         );
     };
 
-    // Auto-rotate slides every 5 seconds
+    // Auto-rotate slides every 5 seconds when not hovering
     React.useEffect(() => {
         const interval = setInterval(() => {
-            nextSlide();
-        }, 3000);
+            if (!isHovering) {
+                nextSlide();
+            }
+        }, 5000);
         return () => clearInterval(interval);
-    }, [currentIndex]);
+    }, [isHovering, currentIndex]);
+
+    // Determine which products to display (handles wrap-around)
+    const getVisibleProducts = () => {
+        const visible = [];
+        for (let i = 0; i < 4; i++) {
+            const index = (currentIndex + i) % products.length;
+            visible.push(products[index]);
+        }
+        return visible;
+    };
+
+    const visibleProducts = getVisibleProducts();
 
     return (
-
-        <div className=''>
+        <div 
+            className="bg-gradient-to-b from-gray-50 to-white"
+            onMouseEnter={() => setIsHovering(true)}
+            onMouseLeave={() => setIsHovering(false)}
+        >
             <section className="container mx-auto px-4 py-12">
-                <div className="flex justify-between items-center mb-8">
+                <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
                     <div>
                         <div className="flex items-center">
-                            <Flame className="text-orange-500 text-2xl mr-2" />
-                            <h2 className="text-2xl font-bold text-gray-800">{title}</h2>
+                            <motion.div 
+                                animate={{ scale: [1, 1.2, 1] }}
+                                transition={{ duration: 1.5, repeat: Infinity }}
+                            >
+                                <Flame className="text-orange-500 text-2xl mr-2" />
+                            </motion.div>
+                            <h2 className="text-3xl font-bold text-gray-900">{title}</h2>
                         </div>
-                        <p className="text-gray-600 mt-1">{description}</p>
+                        <p className="text-gray-600 mt-2 max-w-lg">{description}</p>
                     </div>
 
                     <div className="flex space-x-2">
                         <button
                             onClick={prevSlide}
-                            className="w-10 h-10 rounded-full bg-white border border-gray-200 flex items-center justify-center hover:bg-gray-50 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="w-10 h-10 rounded-full bg-white border border-gray-200 flex items-center justify-center hover:bg-gray-50 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm hover:shadow-md"
                             aria-label="Previous"
                         >
                             <ChevronLeft className="text-gray-600" />
                         </button>
                         <button
                             onClick={nextSlide}
-                            className="w-10 h-10 rounded-full bg-white border border-gray-200 flex items-center justify-center hover:bg-gray-50 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="w-10 h-10 rounded-full bg-white border border-gray-200 flex items-center justify-center hover:bg-gray-50 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm hover:shadow-md"
                             aria-label="Next"
                         >
                             <ChevronRight className="text-gray-600" />
@@ -80,14 +107,23 @@ const TrendingSection: React.FC<TrendingSectionProps> = ({
                     </div>
                 </div>
 
-                <div className="relative">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                        {products.slice(currentIndex, currentIndex + 4).map((product) => (
-                            <ProductCard key={product.id} product={product} />
-                        ))}
-                    </div>
+                <div className="relative overflow-hidden">
+                    <AnimatePresence custom={direction} mode="wait">
+                        <motion.div
+                            key={currentIndex}
+                            custom={direction}
+                            initial={{ opacity: 0, x: direction === 'right' ? 100 : -100 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            exit={{ opacity: 0, x: direction === 'right' ? -100 : 100 }}
+                            transition={{ duration: 0.5, ease: "easeInOut" }}
+                            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
+                        >
+                            {visibleProducts.map((product) => (
+                                <ProductCard key={`${currentIndex}-${product.id}`} product={product} />
+                            ))}
+                        </motion.div>
+                    </AnimatePresence>
                 </div>
-
             </section>
 
             {showViewAll && (
@@ -95,15 +131,14 @@ const TrendingSection: React.FC<TrendingSectionProps> = ({
                     <MoveButton
                         text="See All Projects"
                         href="/best-sellers"
-                        className="mt-0"
+                        className="mt-0 px-8 py-3 text-lg font-medium"
                     />
                 </div>
             )}
 
             <section className="container mx-auto">
-                <hr className="border-t border-gray-300 w-full" />
+                <hr className="border-t border-gray-200 w-full" />
             </section>
-
         </div>
     );
 };
@@ -119,28 +154,42 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
     };
 
     return (
-        <div
-            className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 relative group"
+        <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+            className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 relative group"
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
             role="article"
             aria-label={`Product: ${product.title}`}
+            whileHover={{ y: -5 }}
         >
             <div className="relative overflow-hidden h-48">
-                <img
+                <motion.img
                     src={product.imageUrl}
                     alt={product.title}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    className="w-full h-full object-cover"
                     loading="lazy"
+                    initial={{ scale: 1 }}
+                    animate={{ scale: isHovered ? 1.1 : 1 }}
+                    transition={{ duration: 0.5 }}
                 />
 
                 {isHovered && (
-                    <div className="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center transition-opacity duration-300">
-                        <button
+                    <motion.div 
+                        className="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.3 }}
+                    >
+                        <motion.button
                             onClick={handleAddToCart}
                             className={`px-4 py-2 rounded-full font-medium flex items-center space-x-2 ${isAdded ? 'bg-green-500' : 'bg-blue-500 hover:bg-blue-600'
-                                } text-white transition-all duration-300 transform hover:scale-105`}
+                                } text-white transition-all duration-300`}
                             aria-label={isAdded ? 'Added to cart' : 'Add to cart'}
+                            whileTap={{ scale: 0.95 }}
                         >
                             {isAdded ? (
                                 <Check className="w-5 h-5" />
@@ -148,16 +197,16 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
                                 <ShoppingCart className="w-5 h-5" />
                             )}
                             <span>{isAdded ? 'Added!' : 'Add to Cart'}</span>
-                        </button>
-                    </div>
+                        </motion.button>
+                    </motion.div>
                 )}
             </div>
 
-            <div className="p-4">
-                <span className="inline-block text-xs text-blue-600 bg-blue-50 px-2 py-1 rounded mb-2">
+            <div className="p-5">
+                <span className="inline-block text-xs font-semibold text-blue-600 bg-blue-50 px-2 py-1 rounded-full mb-2">
                     {product.category}
                 </span>
-                <h3 className="text-lg font-semibold text-gray-800 line-clamp-2">
+                <h3 className="text-lg font-bold text-gray-900 line-clamp-2 mb-2">
                     {product.title}
                 </h3>
 
@@ -182,14 +231,14 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
                     </div>
                 )}
 
-                <div className="flex justify-between items-center mt-3">
-                    <span className="text-gray-900 font-bold">${product.price.toFixed(2)}</span>
+                <div className="flex justify-between items-center mt-4">
+                    <span className="text-gray-900 font-bold text-lg">${product.price.toFixed(2)}</span>
                     <span className="text-gray-500 text-sm">
                         {product.downloads.toLocaleString()} downloads
                     </span>
                 </div>
             </div>
-        </div>
+        </motion.div>
     );
 };
 
