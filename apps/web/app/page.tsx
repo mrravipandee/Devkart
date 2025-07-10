@@ -3,6 +3,7 @@ import Navigation from '@/components/Navigation'
 import Hero from '@/components/Hero'
 import TrendingSection from '@/components/Trending'
 import CategoryBrowser from '@/components/CategoryBrowser'
+import ProblemSolutionSection from '@/components/ProblemSolutionSection'
 
 const page = () => {
 
@@ -71,6 +72,7 @@ const page = () => {
       <Hero />
       <TrendingSection products={trendingProducts} />
       <CategoryBrowser />
+      <ProblemSolutionSection />
     </div>
   )
 }

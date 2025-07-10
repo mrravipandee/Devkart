@@ -148,7 +148,7 @@ const TrendingSection: React.FC<TrendingSectionProps> = ({
                     <MoveButton
                         text="See All Projects"
                         href="/best-sellers"
-                        className="mt-0 px-8 py-3 text-lg font-medium"
+                        className="mt-0 px-8 py-3 text-lg font-normal"
                     />
                 </div>
             )}

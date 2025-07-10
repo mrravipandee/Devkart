@@ -102,34 +102,34 @@ const CategoryBrowser: React.FC<CategoryBrowserProps> = ({
     <div className="container mx-auto px-4 py-12">
       <div className="flex justify-between items-center mb-8">
         <div>
-                        <div className="flex items-center">
-                            <div
-                                className="relative h-6 mr-2" 
-                            >
-                                <svg
-                                    width="24"
-                                    height="30"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="text-blue-500 absolute top-1/2 -translate-y-1/2"
-                                >
-                                    <rect
-                                        x="4"
-                                        y="4"
-                                        width="14"
-                                        height="20" 
-                                        rx="2"
-                                        fill="currentColor"
-                                    />
-                                </svg>
-                                <h2 className="text-xl font-medium text-blue-600 relative z-10 pl-7">
-                                    {title}
-                                </h2>
-                            </div>
-                        </div>
-                        <p className="text-gray-900 text-2xl font-bold mt-2 max-w-lg">{description}</p>
-                    </div>
+          <div className="flex items-center">
+            <div
+              className="relative h-6 mr-2"
+            >
+              <svg
+                width="24"
+                height="30"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                className="text-blue-500 absolute top-1/2 -translate-y-1/2"
+              >
+                <rect
+                  x="4"
+                  y="4"
+                  width="14"
+                  height="20"
+                  rx="2"
+                  fill="currentColor"
+                />
+              </svg>
+              <h2 className="text-xl font-medium text-blue-600 relative z-10 pl-7">
+                {title}
+              </h2>
+            </div>
+          </div>
+          <p className="text-gray-900 text-2xl font-bold mt-2 max-w-lg">{description}</p>
+        </div>
 
         {showNavigation && (
           <div className="flex space-x-2">
@@ -160,34 +160,26 @@ const CategoryBrowser: React.FC<CategoryBrowserProps> = ({
             <motion.button
               key={category.id}
               onClick={() => handleCategoryClick(category.id)}
-              className={`flex flex-col items-center justify-center p-6 w-40 h-40 rounded-lg transition-all duration-200 ${
-                selectedCategory === category.id
+              className={`flex flex-col items-center justify-center p-6 w-40 h-40 rounded-lg transition-all duration-200 ${selectedCategory === category.id
                   ? "bg-blue-50 border-2 border-blue-300"
                   : "bg-white border border-gray-200 hover:bg-gray-50"
-              }`}
+                }`}
               aria-label={`Browse ${category.name}`}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3 }}
             >
               <motion.div
-                className={`p-3 rounded-full mb-3 ${
-                  selectedCategory === category.id
+                className={`p-3 rounded-full mb-3 ${selectedCategory === category.id
                     ? "bg-blue-500 text-white"
                     : "bg-gray-100 text-gray-600"
-                }`}
+                  }`}
                 whileHover={{ rotate: 10 }}
               >
                 {category.icon}
               </motion.div>
               <span
-                className={`text-sm font-medium text-center px-1 ${
-                  selectedCategory === category.id
+                className={`text-sm font-medium text-center px-1 ${selectedCategory === category.id
                     ? "text-blue-600"
                     : "text-gray-700"
-                }`}
+                  }`}
               >
                 {category.name}
               </span>
