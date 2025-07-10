@@ -25,7 +25,7 @@ interface TrendingSectionProps {
 const TrendingSection: React.FC<TrendingSectionProps> = ({
     products,
     title = "Trending",
-    description = "All trending projects",
+    description = "Trending Projects",
     showViewAll = true,
 }) => {
     const [currentIndex, setCurrentIndex] = React.useState(0);
@@ -69,7 +69,7 @@ const TrendingSection: React.FC<TrendingSectionProps> = ({
     const visibleProducts = getVisibleProducts();
 
     return (
-        <div 
+        <div
             className="bg-gradient-to-b from-gray-50 to-white"
             onMouseEnter={() => setIsHovering(true)}
             onMouseLeave={() => setIsHovering(false)}
@@ -78,15 +78,32 @@ const TrendingSection: React.FC<TrendingSectionProps> = ({
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
                     <div>
                         <div className="flex items-center">
-                            <motion.div 
-                                animate={{ scale: [1, 1.2, 1] }}
-                                transition={{ duration: 1.5, repeat: Infinity }}
+                            <div
+                                className="relative h-6 mr-2" 
                             >
-                                <Flame className="text-orange-500 text-2xl mr-2" />
-                            </motion.div>
-                            <h2 className="text-3xl font-bold text-gray-900">{title}</h2>
+                                <svg
+                                    width="24"
+                                    height="30"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="text-blue-500 absolute top-1/2 -translate-y-1/2"
+                                >
+                                    <rect
+                                        x="4"
+                                        y="4"
+                                        width="14"
+                                        height="20" 
+                                        rx="2"
+                                        fill="currentColor"
+                                    />
+                                </svg>
+                                <h2 className="text-xl font-medium text-blue-600 relative z-10 pl-7">
+                                    {title}
+                                </h2>
+                            </div>
                         </div>
-                        <p className="text-gray-600 mt-2 max-w-lg">{description}</p>
+                        <p className="text-gray-900 text-2xl font-bold mt-2 max-w-lg">{description}</p>
                     </div>
 
                     <div className="flex space-x-2">
@@ -177,7 +194,7 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
                 />
 
                 {isHovered && (
-                    <motion.div 
+                    <motion.div
                         className="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
@@ -207,7 +224,7 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
                     {product.category}
                 </span>
                 <h3 className="text-lg font-bold text-gray-900 line-clamp-2 mb-2">
-                    {product.title}
+                    {product.title.slice(0, 20)}...
                 </h3>
 
                 {product.rating && (

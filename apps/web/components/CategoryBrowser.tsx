@@ -102,12 +102,34 @@ const CategoryBrowser: React.FC<CategoryBrowserProps> = ({
     <div className="container mx-auto px-4 py-12">
       <div className="flex justify-between items-center mb-8">
         <div>
-          <div className="flex items-center">
-            <Flame className="text-orange-500 text-2xl mr-2" />
-            <h2 className="text-2xl font-bold text-gray-800">{title}</h2>
-          </div>
-          <p className="text-gray-600 mt-1">{description}</p>
-        </div>
+                        <div className="flex items-center">
+                            <div
+                                className="relative h-6 mr-2" 
+                            >
+                                <svg
+                                    width="24"
+                                    height="30"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="text-blue-500 absolute top-1/2 -translate-y-1/2"
+                                >
+                                    <rect
+                                        x="4"
+                                        y="4"
+                                        width="14"
+                                        height="20" 
+                                        rx="2"
+                                        fill="currentColor"
+                                    />
+                                </svg>
+                                <h2 className="text-xl font-medium text-blue-600 relative z-10 pl-7">
+                                    {title}
+                                </h2>
+                            </div>
+                        </div>
+                        <p className="text-gray-900 text-2xl font-bold mt-2 max-w-lg">{description}</p>
+                    </div>
 
         {showNavigation && (
           <div className="flex space-x-2">
